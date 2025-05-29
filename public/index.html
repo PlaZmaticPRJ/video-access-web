@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Смотреть видео</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 50px;
+    }
+    .box {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 400px;
+      margin: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>🎬 Видео доступно только для подписчиков</h2>
+    <p>Нажмите кнопку ниже, чтобы подтвердить подписку и открыть бота</p>
+
+    <script async src="https://telegram.org/js/telegram-widget.js?22"
+            data-telegram-login="video100k_bot"
+            data-size="large"
+            data-userpic="false"
+            data-request-access="write"
+            data-lang="ru"
+            data-on-auth="onTelegramAuth">
+    </script>
+
+    <div id="status" style="margin-top: 20px;"></div>
+  </div>
+
+  <script>
+    async function onTelegramAuth(user) {
+      const res = await fetch("/api/check-subscription", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(user)
+      });
+      const result = await res.json();
+
+      if (result.subscribed) {
+        document.getElementById("status").innerText = "✅ Подписка подтверждена, переходим в бот...";
+        setTimeout(() => {
+          window.location.href = "https://t.me/video100k_bot?start=TGkanal";
+        }, 1500);
+      } else {
+        alert("🔒 Видео только для подписчиков канала\n\nЖмите кнопку «Подписаться», чтобы смотреть закрытые материалы.");
+      }
+    }
+  </script>
+</body>
+</html>
