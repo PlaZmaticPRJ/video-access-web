@@ -9,11 +9,11 @@
   "routes": [
     {
       "src": "/api/check-subscription",
-      "dest": "/api/check-subscription.js"
+      "dest": "api/check-subscription.js"
     },
     {
-      "src": "/(.*)",
-      "dest": "/public/index.html"
+      "src": "/",
+      "dest": "public/index.html"
     }
   ]
 }
